@@ -4,7 +4,14 @@ class UserAuthLoginDTO {
     constructor(
         public readonly email: string,
         public readonly password: string
-    ){}
+    ){
+        if(email.length < 6 || !email.includes('@')) {
+            throw new BadRequestError("Email inválido.")
+        }
+        if(typeof password !== 'string' || password.length <= 0) {
+            throw new BadRequestError("Senha inválida.")
+        }
+    }
 }
 
 class UserAuthResponseDTO {

@@ -19,7 +19,7 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
 
         public async findById(id: TId): Promise<TEntity>{
             const document = await this.execute(() => this.instanceModel.findById(id))
-            if (!document) throw new Error("Not find this id")
+            if (!document) return null
             return this.mapper.toEntity(document)
         }
 

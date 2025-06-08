@@ -7,7 +7,7 @@ import { PostArticleDTO,
         FilterPublishedArticleDTO,
         DeleteArticleDTO,
         PublishArticleDTO, 
-        GetMyArticleDTO} from "../dtos/post.article.dto.js"
+        GetMyArticleDTO} from "../dtos/article.dto.js"
 import { PageDTO } from "../dtos/pagination.dto.js"
 import { GetUserByIdDTO } from "../dtos/user.dto.js"
 

@@ -11,7 +11,7 @@ import {
     FilterPublishedArticleDTO,
     FilterMyArticlesDTO,
     DeleteArticleDTO,
-    GetMyArticleDTO} from "../../api/dtos/post.article.dto.js";
+    GetMyArticleDTO} from "../../api/dtos/article.dto.js";
 import { GetUserByIdDTO } from "../../api/dtos/user.dto.js";
 import { UserService } from "./user.service.js";
 import { ArticleValidator } from "./validation/article.validation.js";

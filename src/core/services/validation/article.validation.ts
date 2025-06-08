@@ -1,6 +1,6 @@
 import { BadRequestError, NotFoundError } from "../Error/validation.error.service.js";
 import { ArticleEntity } from "../../entity/article.entity.js";
-import { PublishArticleDTO } from "../../../api/dtos/post.article.dto.js";
+import { PublishArticleDTO } from "../../../api/dtos/article.dto.js";
 import axios from "axios";
 
 export class ArticleValidator {

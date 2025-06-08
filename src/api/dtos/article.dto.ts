@@ -1,5 +1,5 @@
 import { BadRequestError } from "../../core/services/Error/validation.error.service.js"
-import { isValidDate } from "../../core/services/validation/validation.date.js"
+import { isValidDate, validateDate } from "../../core/services/validation/validation.date.js"
 import { Viewer } from "../../core/entity/article.entity.js"
 // Command–Query Responsibility Segregation (CQRS) DTOS
 // Arrumar validateDate: transformar em uma função externa que pode ser usado deiversas vezes
@@ -55,18 +55,12 @@ class FilterPublishedArticleDTO{
 
 
         if (updatedAt === "string"){
-            this.validateDate(updatedAt , "updatedAt")
+            validateDate(updatedAt , "updatedAt")
             this.updatedAt = new Date(updatedAt)
         } else if (updatedAt instanceof Date) {
             this.updatedAt = updatedAt
         }
 
-    }
-
-    private validateDate(date: string, field: string): void {
-        if(date && !isValidDate(date as string)) {
-            throw new BadRequestError(`Formato de data inválido no campo ${field}`);
-        }
     }
 }
 
@@ -91,25 +85,19 @@ class FilterMyArticlesDTO {
         }
         
         if (typeof updatedAt === "string") {
-            this.validateDate(updatedAt, 'updatedAt');
+            validateDate(updatedAt, 'updatedAt');
             this.updatedAt = new Date(updatedAt);
         } else if (updatedAt instanceof Date) {
             this.updatedAt = updatedAt;
         }
 
         if (typeof createdAt === "string") {
-            this.validateDate(createdAt, 'createdAt');
+            validateDate(createdAt, 'createdAt');
             this.createdAt = new Date(createdAt);
         } else if (createdAt instanceof Date) {
             this.createdAt = createdAt;
         }
 
-    }
-
-    private validateDate(date: string, field: string): void {
-        if(date && !isValidDate(date as string)) {
-            throw new BadRequestError(`Formato de data inválido no campo ${field}`);
-        }
     }
 }
 
@@ -125,30 +113,37 @@ class PublishArticleDTO<GenericId> {
 
 // DTOs de resultado prévio
 class ArticleSummaryDTO <GenericId> {
-
+    public readonly updatedAt?: Date;
     constructor(
         public readonly articleId?: GenericId,
         public readonly imageURL?: string,
         public readonly author?: string,
         public readonly title?: string,
-        public readonly updatedAt?: Date,
+        updatedAt?: string | Date,
         public readonly viewers?: Array<GenericId>
     ){
-      
+        if (typeof updatedAt === 'string') {
+            validateDate(updatedAt, 'updatedAt')
+            this.updatedAt = new Date(updatedAt)
+        } else if (updatedAt instanceof Date) {
+                this.updatedAt = updatedAt;
+        }
     }
 }
 
 // Resultado na página
 class ArticleDetailDTO<GenericId> {
+
     constructor(
         public readonly articleId: GenericId,
         public readonly author: string,
         public readonly title: string,
         public readonly content: string,
-        public readonly updatedAt?: Date,
+        public readonly updatedAt: Date,
         public readonly imageURL?: string,
         public readonly viewers?: Viewer<GenericId>[]
-    ){}
+    ){
+    }
 }
 
 // DTOs de atualização
