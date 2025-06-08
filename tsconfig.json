@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "ESNext",
+		"sourceMap": true,
+		"outDir": "dist",
+		"typeRoots": [ 
+			"./node_modules/@types",
+      		"./@types"
+		]
+	}, 
+	"include": ["src/**/*", "@types/**/*"]
+}

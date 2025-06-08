@@ -1,0 +1,11 @@
+# Ambientes
+.env
+
+# Build
+/dist
+
+# Dependências
+/node_modules
+
+# Swagger (não esta pronto)
+swagger.yaml
