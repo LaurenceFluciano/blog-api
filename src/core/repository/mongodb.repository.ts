@@ -1,5 +1,5 @@
 import { Repository } from "./interface/repository.js";
-import { Model, Schema, UpdateQuery, model } from "mongoose"
+import { Model, Schema, isValidObjectId, model } from "mongoose"
 import { Mapper } from "./interface/mapper.js";
 
 export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> implements Repository<TEntity, TId, TFilters> {
@@ -12,12 +12,16 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
         }
 
         public async findAll(page: number, pageSize: number): Promise<TEntity[]>{
+            if (!Number.isInteger(page) || !Number.isInteger(pageSize) || page <= 0 || pageSize <= 0) {
+                return [] as TEntity[];
+            }
             const skip = (page - 1) * pageSize;
             const documents = await this.execute(() => this.instanceModel.find({}).skip(skip).limit(pageSize));
             return documents.map(document => this.mapper.toEntity(document))
         }
 
-        public async findById(id: TId): Promise<TEntity>{
+        public async findById(id: TId): Promise<TEntity | null>{
+            if (!isValidObjectId(id)) return null;
             const document = await this.execute(() => this.instanceModel.findById(id))
             if (!document) return null
             return this.mapper.toEntity(document)
@@ -35,13 +39,14 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
         }
 
         public async findManyBy(condition: Partial<TFilters>, page: number, pageSize: number): Promise<TEntity[]>{
-            console.log(condition)
+            if (!Number.isInteger(page) || !Number.isInteger(pageSize) || page <= 0 || pageSize <= 0) {
+                return [] as TEntity[];
+            }
             const skip = (page-1)*pageSize
             const conditionDocument = this.mapper.toDocumentQuery(condition)
             const documents = await this.execute(() => {
                 return this.instanceModel.find(conditionDocument).skip(skip).limit(pageSize)
             })
-            console.log(documents)
             return documents.map(document => this.mapper.toEntity(document))
         }
 
@@ -57,6 +62,7 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
         }
 
         public async delete(id: TId): Promise<void>{
+            if (!isValidObjectId(id)) return null;
             await this.execute(() => this.instanceModel.findByIdAndDelete(id))
         }
 

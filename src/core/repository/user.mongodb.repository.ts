@@ -17,6 +17,13 @@ implements UserRepository<UserEntity, string, UserFilter>
         super(UserSchema, "Users", userMapper)
         this.mapper = userMapper
     }
+
+    public async findOneBy(condition: Partial<UserFilter>): Promise<UserEntity | null> {
+        if ('username' in condition || 'createdAt' in condition || 'updatedAt' in condition) {
+            return null
+        }
+        return super.findOneBy(condition);
+    }
 }
 
 export { UserRepositoryMongodb };
