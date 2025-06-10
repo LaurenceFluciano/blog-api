@@ -76,12 +76,6 @@ describe("UserRepositoryMongodb - findOneBy and findManyById", () => {
     assert(users[0] instanceof UserEntity, "First user should be a UserEntity");
   });
 
-  it("Shouldn't get user by username in findOneById", async () => {
-    const users = await userRepository.findOneBy({ username: "test" });
-
-    assert.strictEqual(users, null, "Should be null");
-  });
-
   it("Should get users by updated Date", async () => {
     const users = await userRepository.findManyBy(
       { updatedAt: new Date("2025-05-29") },
@@ -113,4 +107,23 @@ describe("UserRepositoryMongodb - findOneBy and findManyById", () => {
     assert(Array.isArray(users), "Should return an array");
     assert.strictEqual(users.length, 0, "Users array should be empty when username not found");
   });
+  it("Should get many users that starts with \"j or J\"", async () => {
+    const users = await userRepository.findManyBy({username: "j"},1,10);
+    assert(Array.isArray(users), "Should return an array")
+    assert(users.length > 0, "Users array should not be empty");
+    assert(users[0] instanceof UserEntity, "First user should be a UserEntity")
+    assert(/^[jJ]/.test(users[0]["username"]), "The first letter should be \"j or J\"")
+  })
 });
+
+
+describe("UserRepositoryMongodb - create and delete", () => {
+  it("Should create an user", async () => {
+    const user = await userRepository.create(new UserEntity("JOSÉ","josevintro@test.com","ThePassword-123"))
+    assert.notEqual(user, null, "Shouldn't be null")
+    await userRepository.delete(user.id)
+    const result = await userRepository.findById(user.id)
+    assert.strictEqual(result, null, "User should be null after deletion");
+  })
+})
+

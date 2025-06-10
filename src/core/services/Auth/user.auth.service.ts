@@ -37,15 +37,16 @@ export class UserAuthService {
         const password = dto.password
         const email = dto.email
 
-        const filter = UserFilterFactory.create({ email });
+        const filter = new UserFilter()
+        filter.email = email
         const user: UserEntity = await this.repository.findOneBy(filter);
-
+        console.log(user)
         if(!user) {
             throw new UnauthorizedError("Usuário ou senha inválidos.");
         }
 
         const isValidPassword: boolean = await EncryptionService.comparePassword(password, user.password)
-
+        console.log(isValidPassword)
         if(!isValidPassword) {
             throw new UnauthorizedError("Usuário ou senha inválidos.");
         }

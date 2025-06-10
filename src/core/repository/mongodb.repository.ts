@@ -28,6 +28,7 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
         }
 
         public async findOneBy(condition: Partial<TFilters>): Promise<TEntity | null>{
+            console.log(condition)
             const conditionDocument = this.mapper.toDocumentQuery(condition)
             const document = await this.execute(() => {
                 return this.instanceModel.findOne(conditionDocument)
@@ -50,20 +51,24 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
             return documents.map(document => this.mapper.toEntity(document))
         }
 
-        public async create(entity: TEntity): Promise<void>{
-           await this.execute(() => this.instanceModel.create(this.mapper.toDocument(entity)))
+        public async create(entity: TEntity): Promise<TEntity | null>{
+            if (!entity) return null
+            const document = await this.execute(() => this.instanceModel.create(this.mapper.toDocument(entity)))
+            if (!document) return null
+            return this.mapper.toEntity(document)
         }
 
         public async update(object: any | Partial<TEntity>, id: TId): Promise<void>{
            await this.execute(() => this.instanceModel.findByIdAndUpdate(
             id,
-            { $set: this.mapper.toUpdateDocument(object) }, 
+            {$set: this.mapper.toUpdateDocument(object)}, 
             {new: true}))
         }
 
-        public async delete(id: TId): Promise<void>{
+        public async delete(id: TId): Promise<TEntity | null>{
             if (!isValidObjectId(id)) return null;
-            await this.execute(() => this.instanceModel.findByIdAndDelete(id))
+            const deleted = await this.execute(() => this.instanceModel.findByIdAndDelete(id))
+            return deleted ? this.mapper.toEntity(deleted) : null;
         }
 
         protected async execute<Result>(
@@ -76,3 +81,4 @@ export class MongodbRepository<TEntity, TDocument, TId = string, TFilters=any> i
             }
         }
 }
+

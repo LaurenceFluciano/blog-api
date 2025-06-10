@@ -26,7 +26,7 @@ export class ArticleService {
         private readonly articleValidator: ArticleValidator
     ) {}
 
-    public async searchPublishedArticles(pagination: PageDTO, filters: FilterPublishedArticleDTO):  Promise<PaginatedResponse<ArticleSummaryDTO<string>>> {
+    public async searchPublishedArticles(pagination: PageDTO, filters?: FilterPublishedArticleDTO):  Promise<PaginatedResponse<ArticleSummaryDTO<string>>> {
         if (pagination.pageSize > 100) {
             throw new BadRequestError("O tamanho da página não pode ser maior que 50 itens.");
         }
@@ -95,7 +95,8 @@ export class ArticleService {
 
         this.articleValidator.verifyOwnerArticle(article,dto.idUser)
 
-        await this.repository.delete(article.id)
+        const result = await this.repository.delete(article.id)
+        if(!result) throw new BadRequestError("Erro ao deletar o artigo, tente novamente.")
     }
 
     public async searchAllMyArticlesSummary(pagination: PageDTO, filters: FilterMyArticlesDTO): Promise<PaginatedResponse<ArticleSummaryDTO<string>>>{
@@ -154,7 +155,8 @@ export class ArticleService {
     public async createArticle(dto:PostArticleDTO<string>): Promise<void> {
         await this.userService.getUserById(dto.idUser)
         this.articleValidator.isValidTitle(dto.title)
-        await this.repository.create(new ArticleEntity(dto.title, dto.idUser))
+        const result = await this.repository.create(new ArticleEntity(dto.title, dto.idUser))
+        if(!result) throw new BadRequestError("Erro ao criar o artigo, tente novamente.")
     }
 
     public async updateArticle(

@@ -18,11 +18,8 @@ implements UserRepository<UserEntity, string, UserFilter>
         this.mapper = userMapper
     }
 
-    public async findOneBy(condition: Partial<UserFilter>): Promise<UserEntity | null> {
-        if ('username' in condition || 'createdAt' in condition || 'updatedAt' in condition) {
-            return null
-        }
-        return super.findOneBy(condition);
+    public async findOneBy(condition: Partial<Omit<UserFilter, 'username' | 'createdAt' | 'updatedAt'>>): Promise<UserEntity | null> {
+        return super.findOneBy(condition); // Caso contrário, executa a busca normalmente
     }
 }
 

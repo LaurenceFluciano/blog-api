@@ -18,7 +18,7 @@ export class UserMapper implements Mapper<UserDocument,UserEntity, UserFilter> {
     }
     toDocument(entity: UserEntity): UserDocument {
         return {
-            id: entity.id,
+            id: entity?.id,
             username: entity.username,
             email: entity.email,
             password: entity.password 
@@ -33,12 +33,24 @@ export class UserMapper implements Mapper<UserDocument,UserEntity, UserFilter> {
     }
 
     toDocumentQuery(condition: Partial<UserFilter>): FilterQuery<UserDocument> {
-        const {username, email, createdAt, updatedAt} = condition;
         const result: any = {} ;
-        if (username) result.username = username ;
-        if (email) result.email = email;
-        if (createdAt) result.createdAt = {$dte: createdAt,$lte: new Date()};
-        if (updatedAt) result.updatedAt = {$dte: updatedAt, $lte: new Date()};
+        if (condition.username) result.username = {$regex: `^${condition.username}`, $options: 'i'};
+        if (condition.email) result.email = condition.email;
+        console.log(condition.email)
+        if (condition.createdAt) {
+            result.createdAt = {
+                $gte: condition.createdAt,
+                $lte: new Date()
+            };
+        }
+
+        if (condition.updatedAt) {
+            result.updatedAt = {
+                $gte: condition.updatedAt,
+                $lte: new Date()
+            };
+        }
+        console.log(result)
         return result as FilterQuery<UserDocument>;
     }
 }
