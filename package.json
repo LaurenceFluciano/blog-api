@@ -1,6 +1,6 @@
 {
   "name": "blog",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -35,6 +35,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "6.16",
     "mongoose": "^8.15.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0"
   }
 }
