@@ -94,8 +94,8 @@ export class ArticleController {
 
     public async publishOrUnpublishArticle(req: Request, res: Response) {
         const isPublished = req.body.publish === true || req.body.publish === 'true'; 
-        await this.articleService.publishOrUnpublishArticle(new PublishArticleDTO(req.params.id, req.user.id,isPublished))
-        res.status(200).json({message: "O artigo foi publicado com sucesso"})
+        const messsage = await this.articleService.publishOrUnpublishArticle(new PublishArticleDTO(req.params.id, req.user.id,isPublished))
+        res.status(200).json({message: messsage})
     }
 
     public async deleteMyArticle(req: Request, res: Response) {

@@ -5,6 +5,7 @@ import { ArticleSchema } from "../schema/article.mongodb.schema.js";
 import { ArticleRepository } from "./interface/article.repository.js";
 import { MongodbRepository } from "./mongodb.repository.js";
 import { ArticleFilter } from "./filters/article.filter.js";
+import { isValidObjectId } from "mongoose";
 
 export class ArticleMongodbRepository 
 extends MongodbRepository<ArticleEntity,ArticleDocument>
@@ -19,7 +20,8 @@ implements  ArticleRepository<ArticleEntity, string, ArticleFilter>
         return await this.instanceModel.countDocuments(filter).exec();
     }
 
-    public async publish(isPublished: boolean, id: string): Promise<void> {
+    public async publish(isPublished: boolean, id: string): Promise<null | boolean> {
+        if (!isValidObjectId(id)) return null
         const objectId = this.mapper.toObjectId([id])[0];
     
         await this.execute(() =>
@@ -28,9 +30,11 @@ implements  ArticleRepository<ArticleEntity, string, ArticleFilter>
                 { $set: { isPublished } }
             )
         );
+        return isPublished
     }
 
-    public async setViewer(articleId: string, viewerId: string): Promise<void> {
+    public async setViewer(articleId: string, viewerId: string): Promise<void | null> {
+        if (!isValidObjectId(articleId) || !isValidObjectId(viewerId)) return null
         await this.execute(() => 
             this.instanceModel.updateOne(
                 {_id: articleId}, 

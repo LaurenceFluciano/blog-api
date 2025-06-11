@@ -77,7 +77,7 @@ export class ArticleService {
             article.viewers)
     }
 
-    public async publishOrUnpublishArticle(dto: PublishArticleDTO<string>): Promise<void> {
+    public async publishOrUnpublishArticle(dto: PublishArticleDTO<string>): Promise<string> {
         const article = await this.repository.findById(dto.articleId)
         this.articleValidator.hasArticle(article)
         this.articleValidator.hasContentArticle(article)
@@ -86,7 +86,15 @@ export class ArticleService {
 
         this.articleValidator.verifyOwnerArticle(article,dto.idUser)
 
-        this.repository.publish(dto.isPublished,dto.articleId)
+        const result = await this.repository.publish(dto.isPublished,dto.articleId)
+
+        if(!result) throw new BadRequestError("Campos inválidos.")
+
+        if(result) {
+            return "Artigo publicado com sucesso!"
+        } else {
+            return "Artigo despublicado com sucesso!"
+        }
     }
 
     public async deleteArticle(dto: DeleteArticleDTO<string>): Promise<void> {
