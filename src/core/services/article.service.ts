@@ -80,6 +80,7 @@ export class ArticleService {
     public async publishOrUnpublishArticle(dto: PublishArticleDTO<string>): Promise<string> {
         const article = await this.repository.findById(dto.articleId)
         this.articleValidator.hasArticle(article)
+        this.articleValidator.isValidTitle(article.title)
         this.articleValidator.hasContentArticle(article)
         await this.articleValidator.hasImageArticle(article.imageUrl)
         await this.articleValidator.isValidImage(article.imageUrl)
@@ -88,7 +89,7 @@ export class ArticleService {
 
         const result = await this.repository.publish(dto.isPublished,dto.articleId)
 
-        if(!result) throw new BadRequestError("Campos inválidos.")
+        if(result === null || result === undefined) throw new BadRequestError("Campos inválidos.")
 
         if(result) {
             return "Artigo publicado com sucesso!"

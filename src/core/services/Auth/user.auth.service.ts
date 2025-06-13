@@ -3,7 +3,7 @@ import { AuthTokenDTO, UserAuthLoginDTO, UpdateUserDTO, FilterUserUpdateDTO } fr
 import { UserValidator } from "../validation/user.validation.js";
 import { UserRepository } from "../../repository/interface/user.repository.js";
 import { UserEntity } from "../../entity/user.entity.js";
-import { UserFilter, UserFilterFactory } from "../../repository/filters/user.filter.js";
+import { UserFilter } from "../../repository/filters/user.filter.js";
 import { BadRequestError, UnauthorizedError, ConflictError, NotFoundError } from "../Error/validation.error.service.js";
 import { generatorJWT } from "../Tokens/generate.token.service.js";
 import { StringValue } from "ms"
@@ -40,13 +40,11 @@ export class UserAuthService {
         const filter = new UserFilter()
         filter.email = email
         const user: UserEntity = await this.repository.findOneBy(filter);
-        console.log(user)
         if(!user) {
             throw new UnauthorizedError("Usuário ou senha inválidos.");
         }
 
         const isValidPassword: boolean = await EncryptionService.comparePassword(password, user.password)
-        console.log(isValidPassword)
         if(!isValidPassword) {
             throw new UnauthorizedError("Usuário ou senha inválidos.");
         }
@@ -112,7 +110,6 @@ export class UserAuthService {
 
     public async update(dto: UpdateUserDTO, filters: FilterUserUpdateDTO): Promise<void> {
         // Verificar se tem ao menos um filtro definido
-        console.log(filters)
         const hasValidFilter = Object.values(filters).some(value => value !== undefined);
 
         if (!hasValidFilter) {

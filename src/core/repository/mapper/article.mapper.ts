@@ -79,7 +79,6 @@ export class ArticleMapper implements Mapper<ArticleDocument, ArticleEntity, Art
             result.content = condition.content;
         }
 
-        console.log(result)
         return result as FilterQuery<ArticleDocument>;
   }
 

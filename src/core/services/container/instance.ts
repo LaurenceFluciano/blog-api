@@ -11,7 +11,7 @@ import { UserValidator } from "../validation/user.validation.js";
 
 
 // Simple Container implemetation
-const userRepository = new UserRepositoryMongodb()
+export const userRepository = new UserRepositoryMongodb()
 const userValidator = new UserValidator()
 export const userService = new UserService(userRepository,userValidator)
 const articleValidator = new ArticleValidator()

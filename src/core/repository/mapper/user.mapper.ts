@@ -36,7 +36,6 @@ export class UserMapper implements Mapper<UserDocument,UserEntity, UserFilter> {
         const result: any = {} ;
         if (condition.username) result.username = {$regex: `^${condition.username}`, $options: 'i'};
         if (condition.email) result.email = condition.email;
-        console.log(condition.email)
         if (condition.createdAt) {
             result.createdAt = {
                 $gte: condition.createdAt,
@@ -50,7 +49,6 @@ export class UserMapper implements Mapper<UserDocument,UserEntity, UserFilter> {
                 $lte: new Date()
             };
         }
-        console.log(result)
         return result as FilterQuery<UserDocument>;
     }
 }

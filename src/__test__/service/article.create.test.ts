@@ -1,20 +1,34 @@
-import {test, describe, it, before, after } from "node:test";
+import { test, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
-import { PostArticleDTO, DeleteArticleDTO, FilterMyArticlesDTO } from "../../api/dtos/article.dto.js";
+import { PostArticleDTO } from "../../api/dtos/article.dto.js";
 import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
-import { PageDTO } from "../../api/dtos/pagination.dto.js";
+import { CreateTestFactoryUser } from "../user.test.factory.js";
+import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 
-// 👇 Use um ID de usuário válido do seu banco
-const validUserId = "683df103e8b3de5f70a6c731";
+const createUser = new CreateTestFactoryUser();
+const userRepository = new UserRepositoryMongodb();
+
+let user: any;
+let validUserId: string;
 
 test.before(async () => {
   await mongooseConnection();
+  user = await createUser.create(userRepository, {});
+  validUserId = user.id;
 });
 
+
+test.after(async () => {
+  await userRepository.delete(validUserId);
+  await mongooseDisconnection();
+});
+
+
 describe("ArticleService - createArticle", () => {
-  it("Should creat an article with valid fields", async () => {
-    const dto = new PostArticleDTO(validUserId, "test title");
+
+  it("Should create an article with valid fields", async () => {
+    const dto = new PostArticleDTO(validUserId, "Test Title");
 
     await assert.doesNotReject(async () => {
       await articleService.createArticle(dto);
@@ -22,40 +36,44 @@ describe("ArticleService - createArticle", () => {
   });
 
   it("Should throw error with invalid user ID", async () => {
-    const dto = new PostArticleDTO("invalid-id", "test title");
+    const dto = new PostArticleDTO("000000000000000000000000", "Test Title"); 
 
-    await assert.rejects(async () => {
-      await articleService.createArticle(dto);
-    }, {
-      name: "NotFoundError",
-      message: /usuário/i
-    });
+    await assert.rejects(
+      async () => {
+        await articleService.createArticle(dto);
+      },
+      {
+        name: "NotFoundError",
+        message: /usuário/i,
+      }
+    );
   });
 
-  it("Should throw an error with invalid title", async () => {
+  it("Should throw an error with invalid title (empty)", async () => {
     const dto = new PostArticleDTO(validUserId, "");
 
-    await assert.rejects(async () => {
-      await articleService.createArticle(dto);
-    }, {
-      name: "BadRequestError",
-      message: /título/i
-    });
+    await assert.rejects(
+      async () => {
+        await articleService.createArticle(dto);
+      },
+      {
+        name: "BadRequestError",
+        message: /título/i,
+      }
+    );
   });
 
   it("Should throw an error with short title", async () => {
     const dto = new PostArticleDTO(validUserId, "Hi");
 
-    await assert.rejects(async () => {
-      await articleService.createArticle(dto);
-    }, {
-      name: "BadRequestError",
-      message: /título/i
-    });
+    await assert.rejects(
+      async () => {
+        await articleService.createArticle(dto);
+      },
+      {
+        name: "BadRequestError",
+        message: /título/i,
+      }
+    );
   });
-});
-
-
-test.after(async () => {
-  await mongooseDisconnection();
 });

@@ -1,19 +1,48 @@
 import { test, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
-import { PublishArticleDTO } from "../../api/dtos/article.dto.js";
+import { GetArticleDTO, PublishArticleDTO } from "../../api/dtos/article.dto.js";
 import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { generateTestText } from "../tester.manager.js";
+import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
+import { ArticleMongodbRepository } from "../../core/repository/article.mongodb.repository.js";
+import { CreateTestFactoryArticle } from "../article.test.factory.js";
+import { CreateTestFactoryUser } from "../user.test.factory.js";
 
-const validArticleId = "684892c7171dec6b052ba071"; // substitua por ID válido do seu banco
-const validUserId = "683df103e8b3de5f70a6c731";
+const validImage = "https://images.unsplash.com/photo-1604147706283-d7119b5b822c?fm=jpg&q=60&w=3000";
+
+const createTestUser = new CreateTestFactoryUser();
+const createTestArticle = new CreateTestFactoryArticle();
+
+let articleRepository: ArticleMongodbRepository;
+let userRepository: UserRepositoryMongodb;
+let createdUser: any;
+let createdValidArticle: any;
 
 test.before(async () => {
   await mongooseConnection();
+  articleRepository = new ArticleMongodbRepository();
+  userRepository = new UserRepositoryMongodb();
+
+  createdUser = await createTestUser.create(userRepository, {});
+  createdValidArticle = await createTestArticle.create(articleRepository, {
+    idUser: createdUser.id,
+    title: "My Testing Article",
+    content: generateTestText(100),
+    imageUrl: validImage,
+  });
 });
+
+test.after(async () => {
+  await articleRepository.delete(createdValidArticle.id);
+  await userRepository.delete(createdUser.id);
+  await mongooseDisconnection();
+});
+
 
 describe("Should publish and unpublish article - publishOrUnpublishArticle", () => {
   it("should publish article successfully", async () => {
-    const dto = new PublishArticleDTO(validArticleId,validUserId, true);
+    const dto = new PublishArticleDTO(createdValidArticle.id, createdUser.id, true);
 
     await assert.doesNotReject(async () => {
       await articleService.publishOrUnpublishArticle(dto);
@@ -21,14 +50,15 @@ describe("Should publish and unpublish article - publishOrUnpublishArticle", () 
   });
 
   it("should unpublish article successfully", async () => {
-    const dto = new PublishArticleDTO(validArticleId, validUserId, false);
+    const dto = new PublishArticleDTO(createdValidArticle.id, createdUser.id, false);
+
     await assert.doesNotReject(async () => {
       await articleService.publishOrUnpublishArticle(dto);
     });
   });
 
   it("should throw NotFoundError if article not found", async () => {
-    const dto = new PublishArticleDTO("000000000000000000000000",validUserId,true);
+    const dto = new PublishArticleDTO("000000000000000000000000", createdUser.id, true);
 
     await assert.rejects(
       async () => {
@@ -42,7 +72,7 @@ describe("Should publish and unpublish article - publishOrUnpublishArticle", () 
   });
 
   it("should throw NotFoundError if user is not owner", async () => {
-    const dto = new PublishArticleDTO<string>(validArticleId, "000000000000000000000000",true);
+    const dto = new PublishArticleDTO(createdValidArticle.id, "000000000000000000000000", true);
 
     await assert.rejects(
       async () => {
@@ -54,19 +84,51 @@ describe("Should publish and unpublish article - publishOrUnpublishArticle", () 
       }
     );
   });
-  /*
+
   it("should throw BadRequestError if article content too short", async () => {
-    // Aqui, pra testar o conteúdo curto, você pode criar um artigo de teste com conteúdo curto no banco
-    // Ou assumir que o artigo real tem conteúdo ok e não testar isso aqui diretamente (é complicado sem mocks)
-    // Se quiser, deixe pra testar isso isoladamente.
+    const articleWithShortContent = await createTestArticle.create(articleRepository, {
+      title: "Testing",
+      idUser: createdUser.id,
+      content: "short",
+      imageUrl: validImage,
+    });
+
+    const dto = new PublishArticleDTO(articleWithShortContent.id, createdUser.id, true);
+
+    await assert.rejects(
+      async () => {
+        await articleService.publishOrUnpublishArticle(dto);
+      },
+      {
+        name: "BadRequestError",
+        message: "O conteúdo do artigo é muito pequeno.",
+      }
+    );
+
+    await articleRepository.delete(articleWithShortContent.id);
   });
 
   it("should throw BadRequestError if article has no image", async () => {
-    // Mesmo esquema que o anterior, depende de dados específicos no banco.
-    // Poderia ter um artigo de teste para isso.
-  });*/
+    const articleWithoutImage = await createTestArticle.create(articleRepository, {
+      title: "Testing",
+      idUser: createdUser.id,
+      content: generateTestText(100),
+      imageUrl: "",
+    });
+
+    const dto = new PublishArticleDTO(articleWithoutImage.id, articleWithoutImage.idUser, true);
+
+    await assert.rejects(
+      async () => {
+        await articleService.publishOrUnpublishArticle(dto);
+      },
+      {
+        name: "BadRequestError",
+        message: "Seu artigo não tem uma imagem",
+      }
+    );
+
+    await articleRepository.delete(articleWithoutImage.id);
+  });
 });
 
-test.after(async () => {
-  await mongooseDisconnection();
-});

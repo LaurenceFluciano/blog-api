@@ -3,34 +3,58 @@ import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
 import { UpdateArticleDTO, GetArticleDTO } from "../../api/dtos/article.dto.js";
 import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { CreateTestFactoryUser } from "../user.test.factory.js";
+import { CreateTestFactoryArticle } from "../article.test.factory.js";
+import { generateTestText } from "../tester.manager.js";
+import { ArticleMongodbRepository } from "../../core/repository/article.mongodb.repository.js"; // Ajuste se precisar
+import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 
-// Use valid data from your database
-const validArticleId = "684892c7171dec6b052ba071";
-const validUserId = "683df103e8b3de5f70a6c731";
-const validImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/036/324/708/small/ai-generated-picture-of-a-tiger-walking-in-the-forest-photo.jpg";
-const validContent = "Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content! Creative content!"
+const validImage = "https://static.vecteezy.com/system/resources/thumbnails/036/324/708/small/ai-generated-picture-of-a-tiger-walking-in-the-forest-photo.jpg";
 
+const createTestUser = new CreateTestFactoryUser();
+const createTestArticle = new CreateTestFactoryArticle();
+
+let articleRepository: ArticleMongodbRepository;
+let userRepository: UserRepositoryMongodb;
+let createdUser: any;
+let createdValidArticle: any;
 
 test.before(async () => {
   await mongooseConnection();
+
+  articleRepository = new ArticleMongodbRepository();
+  userRepository = new UserRepositoryMongodb();
+
+  createdUser = await createTestUser.create(userRepository, {});
+
+  createdValidArticle = await createTestArticle.create(articleRepository, {
+    idUser: createdUser.id,
+    title: "My Testing Article",
+    content: generateTestText(100),
+    imageUrl: validImage,
+  });
+});
+
+test.after(async () => {
+  await mongooseDisconnection();
 });
 
 describe("ArticleService - updateArticle", () => {
   it("Should update article successfully", async () => {
-    const dtoUpdate = new UpdateArticleDTO("Updated Title", validImageUrl, validContent);
-    const dtoArticle = new GetArticleDTO(validArticleId);
+    const dtoUpdate = new UpdateArticleDTO("Updated Title", validImage, generateTestText(150));
+    const dtoArticle = new GetArticleDTO(createdValidArticle.id);
 
     await assert.doesNotReject(async () => {
-      await articleService.updateArticle(dtoUpdate, dtoArticle, validUserId);
+      await articleService.updateArticle(dtoUpdate, dtoArticle, createdUser.id);
     });
   });
 
   it("Should throw NotFoundError if article does not exist", async () => {
-    const dtoUpdate = new UpdateArticleDTO("Valid Title", validImageUrl, "Some content");
-    const dtoArticle = new GetArticleDTO("invalidArticleId");
+    const dtoUpdate = new UpdateArticleDTO("Valid Title", validImage, "Some content");
+    const dtoArticle = new GetArticleDTO("000000000000000000000000"); // ID inválido
 
     await assert.rejects(async () => {
-      await articleService.updateArticle(dtoUpdate, dtoArticle, validUserId);
+      await articleService.updateArticle(dtoUpdate, dtoArticle, createdUser.id);
     }, {
       name: "NotFoundError",
       message: /artigo/i
@@ -38,9 +62,9 @@ describe("ArticleService - updateArticle", () => {
   });
 
   it("Should throw NotFoundError if user is not the owner", async () => {
-    const dtoUpdate = new UpdateArticleDTO("Valid Title", validImageUrl, "Some content");
-    const dtoArticle = new GetArticleDTO(validArticleId);
-    const otherUserId = "someOtherUserId";
+    const dtoUpdate = new UpdateArticleDTO("Valid Title", validImage, "Some content");
+    const dtoArticle = new GetArticleDTO(createdValidArticle.id);
+    const otherUserId = "000000000000000000000000"; // Outro usuário qualquer (não dono)
 
     await assert.rejects(async () => {
       await articleService.updateArticle(dtoUpdate, dtoArticle, otherUserId);
@@ -51,11 +75,11 @@ describe("ArticleService - updateArticle", () => {
   });
 
   it("Should throw BadRequestError if title is invalid", async () => {
-    const dtoUpdate = new UpdateArticleDTO("bad", validImageUrl, "Some content"); // Title too short
-    const dtoArticle = new GetArticleDTO(validArticleId);
+    const dtoUpdate = new UpdateArticleDTO("bad", validImage, "Some content"); // Título muito curto
+    const dtoArticle = new GetArticleDTO(createdValidArticle.id);
 
     await assert.rejects(async () => {
-      await articleService.updateArticle(dtoUpdate, dtoArticle, validUserId);
+      await articleService.updateArticle(dtoUpdate, dtoArticle, createdUser.id);
     }, {
       name: "BadRequestError",
       message: /título/i
@@ -64,10 +88,10 @@ describe("ArticleService - updateArticle", () => {
 
   it("Should throw BadRequestError if image URL is inaccessible", async () => {
     const dtoUpdate = new UpdateArticleDTO("Valid Title", "http://invalid.url/image.png", "Some content");
-    const dtoArticle = new GetArticleDTO(validArticleId);
+    const dtoArticle = new GetArticleDTO(createdValidArticle.id);
 
     await assert.rejects(async () => {
-      await articleService.updateArticle(dtoUpdate, dtoArticle, validUserId);
+      await articleService.updateArticle(dtoUpdate, dtoArticle, createdUser.id);
     }, {
       name: "BadRequestError",
       message: /imagem/i
@@ -84,6 +108,4 @@ describe("ArticleService - updateArticle", () => {
   });
 });
 
-test.after(async () => {
-  await mongooseDisconnection();
-});
+

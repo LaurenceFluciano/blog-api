@@ -26,7 +26,6 @@ export class UserService {
         const filters = new UserFilter()
         filters.email = dto.email.trim().toLowerCase()
         const existingUser = await this.repository.findOneBy(filters);
-        console.log('Usuário existente encontrado:', existingUser);
                 
         if (existingUser) {
             throw new ConflictError("E-mail já está em uso.");
