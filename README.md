@@ -86,7 +86,7 @@ O servidor estará disponível em:
 
 > **ATENÇÃO:**
 > Antes de iniciar, é necessário configurar uma conexão válida com o banco de dados.
-> Crie um arquivo chamado .env na raiz do projeto e defina corretamente a variável de ambiente *URI* ou equivalente, conforme sua > configuração.
+> Crie um arquivo chamado .env na raiz do projeto e defina corretamente a variável de ambiente *URI* ou equivalente, conforme sua configuração.
 > Sem isso, o servidor irá apresentar erro ao tentar se conectar ao banco de dados.
 
 ### 5. Configurando o Banco de Dados
@@ -114,7 +114,7 @@ mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/<database>?retryWrites=tru
 
 Será algo como:
 ```
-DATABASE_URL=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+URI=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
 ```
 > ATENÇÃO:
 > Jamais, em hipótese alguma, compartilhe sua URI de conexão do MongoDB com ninguém.
