@@ -46,7 +46,7 @@ git --version
 Execute o comando abaixo no seu terminal para clonar este repositório:
 
 ```bash
-git clone <url>
+git clone https://github.com/LaurenceFluciano/blog-api.git
 ```
 
 Acesse a pasta do projeto:
