@@ -33,6 +33,7 @@ Este projeto consiste em uma API RESTful para um sistema de blog, desenvolvida c
   - [Rotas de Usuário e Autenticação — prefixos `/api/user` e `/api/user/auth`](#rotas-de-usuário-e-autenticação--prefixos-apiuser-e-apiuserauth)
   - [Documentação Interativa](#documentação-interativa)
 - [Observações das Rotas](#observações)
+- [Como testar no Insomnia](#como-testar-com-o-insomnia)
 
 ## Como executar
 ### 1. Pré-requisitos
@@ -183,3 +184,26 @@ Feito isso, seu projeto estará pronto para funcionar corretamente com conexão 
 Caso deseje acessar a documentação swagger da API acesse o link a seguir:
 
 **🔗 Swagger UI:** https://api-blog-sw-doc.netlify.app/
+
+
+### 7. Como testar com o Insomnia
+
+Este projeto já possui um arquivo de configuração do Insomnia pronto para uso.
+
+#### Passo a passo:
+
+1. Procure a pasta `/docs` `insomnia_blog-api.yaml` incluído neste repositório.
+2. Abra o **Insomnia**.
+3. Vá no menu superior: **`File` > `Import` > `From File`**.
+4. Selecione o arquivo `insomnia_blog-api.yaml`.
+5. Pronto! Todas as rotas e variáveis de ambiente estarão configuradas automaticamente.
+
+> A variável de token (`JWT`) é preenchida automaticamente após a requisição de login — não é necessário configurar manualmente.
+
+
+#### Ainda não tem o insomnia?
+
+Para instalar o **Insomnia** clique no link abaixo para ser redirecionado para a página de download:
+
+
+**🔗 Insomnia:** https://insomnia.rest/download
