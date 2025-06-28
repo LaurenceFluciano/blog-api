@@ -9,7 +9,8 @@ import { CreateTestFactoryUser } from "../user.test.factory.js";
 import { ArticleMongodbRepository } from "../../core/repository/article.mongodb.repository.js";
 import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 
-/*SETUP*/
+/* | MOCK | */
+/* SETUP */
 const createTestUser = new CreateTestFactoryUser()
 const createTestArticle = new CreateTestFactoryArticle()
 

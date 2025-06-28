@@ -5,14 +5,14 @@ export interface Viewer<ID = string> {
 
 export class ArticleEntity<ID = string> {
     constructor(
-        public readonly title: string,
-        public readonly idUser: ID,
-        public readonly isPublished?: boolean,
-        public readonly viewers?: Viewer<ID>[],
-        public readonly content?: string,
-        public readonly imageUrl?: string,
-        public readonly createdAt?: Date,
-        public readonly updatedAt?: Date,
-        public readonly id?: ID,
+        public title: string,
+        public idUser: ID,
+        public isPublished?: boolean,
+        public viewers?: Viewer<ID>[],
+        public content?: string,
+        public imageUrl?: string,
+        public createdAt?: Date,
+        public updatedAt?: Date,
+        public id?: ID,
     ){}
 }
