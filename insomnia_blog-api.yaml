@@ -1,0 +1,443 @@
+type: collection.insomnia.rest/5.0
+name: blog-api
+meta:
+  id: wrk_9cf89fa7401745b89c2cb8bb19d63547
+  created: 1746542980129
+  modified: 1749672223687
+  description: "A simple blog API"
+collection:
+  - name: Blog API
+    meta:
+      id: fld_0736a1d5ecd1451a99596d3a7e5ba91f
+      created: 1748812037591
+      modified: 1748812037591
+      sortKey: -1748812037591
+      description: ""
+    children:
+      - url: "{{ _['blog-api'].server }}/blog/dashboard/articles/"
+        name: Create Article
+        meta:
+          id: req_063eb917a7a8488c946fe0d0a4a1015c
+          created: 1748573909420
+          modified: 1749677988632
+          isPrivate: false
+          description: ""
+          sortKey: -1748812059938
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"title":"example"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/blog/dashboard/articles/"
+        name: Get All My Articles
+        meta:
+          id: req_5873d1087a474a7995453c23113e6da4
+          created: 1748716986549
+          modified: 1749677990637
+          isPrivate: false
+          description: ""
+          sortKey: -1748812059913
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server
+          }}/blog/dashboard/articles/6848c43301a08a3da76784ea"
+        name: Delete My Article
+        meta:
+          id: req_ccf840608cd74bacbe11367a6f0b6f7d
+          created: 1748740557661
+          modified: 1749678000397
+          isPrivate: false
+          description: ""
+          sortKey: -1748812059663
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/blog/feed/"
+        name: Get all Published Articles
+        meta:
+          id: req_b51531da2fb445c899a02c7f34e4cf25
+          created: 1748740570498
+          modified: 1749677986120
+          isPrivate: false
+          description: ""
+          sortKey: -1748812060513
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server
+          }}/blog/dashboard/articles/6848c46201a08a3da76784f2"
+        name: Update my Articles
+        meta:
+          id: req_fccc232ed563413a83c6adbf09f7637d
+          created: 1748740583395
+          modified: 1749677995871
+          isPrivate: false
+          description: ""
+          sortKey: -1748812059813
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            "imageUrl":"url",
+            "content":"content"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server
+          }}/blog/dashboard/articles/6848c46201a08a3da76784f2/publish"
+        name: Publish my Article
+        meta:
+          id: req_6d7310fed6ee41c9b21cd7c520a4e370
+          created: 1748800308863
+          modified: 1749677998311
+          isPrivate: false
+          description: ""
+          sortKey: -1748812059763
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"publish":"true"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server
+          }}/blog/dashboard/articles/6848c46201a08a3da76784f2"
+        name: Get My Article by ID
+        meta:
+          id: req_f5a9b089b5a24d68bfb86cc1dc7eb03d
+          created: 1748800477023
+          modified: 1749677992780
+          isPrivate: false
+          description: ""
+          sortKey: -1748812059863
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/blog/feed/6848c46201a08a3da76784f2"
+        name: Get Published Article by Id
+        meta:
+          id: req_32b7ae82900a4eb7a48581dbe4ee9964
+          created: 1748973045901
+          modified: 1749677983751
+          isPrivate: false
+          description: ""
+          sortKey: -1748812060563
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Auth
+    meta:
+      id: fld_e15f02f0343e4ed99093fbf5dc1ec0bf
+      created: 1748976793943
+      modified: 1749678046427
+      sortKey: -1748976793943
+      description: ""
+    children:
+      - url: "{{ _['blog-api'].server }}/user/auth/login"
+        name: Login
+        meta:
+          id: req_2c9bdfdc800549738b4eb9b5fc7624a8
+          created: 1748462443333
+          modified: 1749677836007
+          isPrivate: false
+          description: ""
+          sortKey: -1748976797795
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "user@gmail.com",
+            	"password":"Password-123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_ef5e6d592423493a8cf1ac8d5425d4ea
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_ec5d41210ed848fd9ddc143637bd62e8
+        scripts:
+          preRequest: ""
+          afterResponse: >
+            const jsonBody = insomnia.response.json();
+
+            if (jsonBody.accessToken) insomnia.environment.set('accessToken',
+            jsonBody.accessToken);
+
+            if (jsonBody.refreshToken) insomnia.environment.set('refreshToken',
+            jsonBody.refreshToken);
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/user/auth/profile"
+        name: Profile
+        meta:
+          id: req_71f40f9afe5846e8810f0475fe9fe3ec
+          created: 1748462531342
+          modified: 1749677943301
+          isPrivate: false
+          description: ""
+          sortKey: -1748976797745
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_13d267198ffa491990bb4a353dac94e2
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/user/auth/profile"
+        name: Update Profile
+        meta:
+          id: req_a5fd8b4ed06a42d49b1207205e90e39a
+          created: 1748976805736
+          modified: 1749677977058
+          isPrivate: false
+          description: ""
+          sortKey: -1748976797720
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"username":"user",
+            	"password":"Password-123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/user/auth/refresh-token"
+        name: Refresh token
+        meta:
+          id: req_08cdd71892d24a8e87b4cf43fcf299a2
+          created: 1749343862982
+          modified: 1749677935250
+          isPrivate: false
+          description: ""
+          sortKey: -1748976797695
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.refreshToken }}"
+        scripts:
+          afterResponse: >
+            const jsonBody = insomnia.response.json();
+
+            if (jsonBody.accessToken) insomnia.environment.set('accessToken',
+            jsonBody.accessToken);
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: User
+    meta:
+      id: fld_28c65828224a45939e8358eb54624ee9
+      created: 1749672234245
+      modified: 1749672234245
+      sortKey: -1749672234245
+      description: ""
+    children:
+      - url: "{{ _['blog-api'].server }}/user/"
+        name: Create User
+        meta:
+          id: req_d0b1c859259d43fa8b8a352d7ec188e3
+          created: 1748387021024
+          modified: 1749677972940
+          isPrivate: false
+          description: ""
+          sortKey: -1749672236827
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"username":"user",
+            	"email":"user@gmail.com",
+            	"password":"Password-123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_3e2e4a67d3904db91293439950f48cb7a6db1f2c
+    created: 1746542980136
+    modified: 1749678046422
+  cookies:
+    - id: fe6d359e-a193-421a-9651-693c59b23217
+      key: token
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJtYXJpYUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im1hcmlhIiwiaWF0IjoxNzQ2NTYwNzMyfQ.MO_A0P3oiP7hOOeEyXSGKSIWR8xWb4YZB2Xdlk50NHw
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      creation: 2025-05-06T19:01:45.218Z
+      hostOnly: true
+      lastAccessed: 2025-05-06T19:45:32.110Z
+environments:
+  name: Base Environment
+  meta:
+    id: env_3e2e4a67d3904db91293439950f48cb7a6db1f2c
+    created: 1746542980133
+    modified: 1749678046425
+    isPrivate: false
+  data:
+    blog-api:
+      server: http://localhost:3000/api
+    accessToken: none
+    refreshToken: none
