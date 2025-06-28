@@ -4,13 +4,14 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Blog API",
+      title: "Blog",
       version: "1.0.0",
       description: "API para gerenciamento de artigos, feed, usuários e autenticação."
     },
     paths: {
       "/api/blog/dashboard/articles/": {
         post: {
+          tags: ["Blog"],
           summary: "Criar artigo",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -19,6 +20,7 @@ const options = {
           }
         },
         get: {
+          tags: ["Blog"],
           summary: "Buscar todos os artigos do usuário",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -38,6 +40,7 @@ const options = {
           }
         ],
         put: {
+          tags: ["Blog"],
           summary: "Atualizar artigo do usuário",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -47,6 +50,7 @@ const options = {
           }
         },
         delete: {
+          tags: ["Blog"],
           summary: "Deletar artigo do usuário",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -56,6 +60,7 @@ const options = {
           }
         },
         get: {
+          tags: ["Blog"],
           summary: "Detalhes do artigo do usuário",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -76,6 +81,7 @@ const options = {
           }
         ],
         put: {
+          tags: ["Blog"],
           summary: "Publicar ou despublicar artigo",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -87,6 +93,7 @@ const options = {
       },
       "/api/blog/feed/": {
         get: {
+          tags: ["Blog"],
           summary: "Buscar todos artigos publicados",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -106,6 +113,7 @@ const options = {
           }
         ],
         get: {
+          tags: ["Blog"],
           summary: "Detalhes do artigo publicado",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -117,6 +125,7 @@ const options = {
       },
       "/api/user/": {
         post: {
+          tags: ["User"],
           summary: "Criar usuário",
           responses: {
             201: { description: "Usuário criado com sucesso." },
@@ -126,6 +135,7 @@ const options = {
       },
       "/api/user/auth/login": {
         post: {
+          tags: ["Auth"],
           summary: "Login do usuário",
           responses: {
             200: { description: "Login bem sucedido, retorna token." },
@@ -135,6 +145,7 @@ const options = {
       },
       "/api/user/auth/profile": {
         get: {
+          tags: ["Auth"],
           summary: "Obter perfil do usuário autenticado",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -143,6 +154,7 @@ const options = {
           }
         },
         put: {
+          tags: ["Auth"],
           summary: "Atualizar perfil do usuário autenticado",
           security: [{ bearerAuth: [] }],
           responses: {
@@ -153,6 +165,7 @@ const options = {
       },
       "/api/user/auth/refresh-token": {
         post: {
+          tags: ["Auth"],
           summary: "Atualizar token de autenticação",
           responses: {
             200: { description: "Token atualizado." },
