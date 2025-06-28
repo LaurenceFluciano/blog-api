@@ -17,8 +17,24 @@ Este projeto consiste em uma API RESTful para um sistema de blog, desenvolvida c
 - Express — framework minimalista e flexível para construção de APIs web
 
 
-## Como usar
+## Sumário
 
+- [RESTFul API de BLOG](#restful-api-de-blog)
+- [Principais Características](#principais-características)
+- [Tecnologias utilizadas](#tecnologias-utilizadas)
+- [Como executar](#como-executar)
+  - [1. Pré-requisitos](#1-pré-requisitos)
+  - [2. Clonando o projeto](#2-clonando-o-projeto)
+  - [3. Instalando dependências](#3-instalando-dependências)
+  - [4. Executando o projeto](#4-executando-o-projeto)
+  - [5. Configurando o Banco de Dados](#5-configurando-o-banco-de-dados)
+- [Documentação das Rotas da API](#6-documentação-das-rotas-da-api)
+  - [Rotas de Artigos — prefixo `/api/blog`](#rotas-de-artigos--prefixo-apiblog)
+  - [Rotas de Usuário e Autenticação — prefixos `/api/user` e `/api/user/auth`](#rotas-de-usuário-e-autenticação--prefixos-apiuser-e-apiuserauth)
+  - [Documentação Interativa](#documentação-interativa)
+- [Observações das Rotas](#observações)
+
+## Como executar
 ### 1. Pré-requisitos
 Antes de começar, é necessário garantir que você tenha os seguintes softwares instalados na sua máquina:
 
@@ -122,3 +138,48 @@ URI=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/<database>?retryWrites
 > Sua URI contém seu usuário e senha, e qualquer pessoa que tiver acesso poderá ler, alterar ou até apagar seu banco de dados.
 
 Feito isso, seu projeto estará pronto para funcionar corretamente com conexão ao MongoDB.
+
+
+### 6. Documentação das Rotas da API
+
+#### Rotas de Artigos — prefixo `/api/blog`
+
+| Método | Rota                                   | Descrição                                  | Autenticação        |
+|--------|---------------------------------------|--------------------------------------------|---------------------|
+| POST   | `/api/blog/dashboard/articles/`       | Cria um novo artigo.                        | Sim (JWT)           |
+| GET    | `/api/blog/dashboard/articles/`       | Lista todos os artigos do usuário.         | Sim (JWT)           |
+| GET    | `/api/blog/dashboard/articles/{id}`   | Retorna detalhes do artigo específico.     | Sim (JWT)           |
+| PUT    | `/api/blog/dashboard/articles/{id}`   | Atualiza um artigo existente.               | Sim (JWT)           |
+| DELETE | `/api/blog/dashboard/articles/{id}`   | Deleta o artigo especificado.               | Sim (JWT)           |
+| PUT    | `/api/blog/dashboard/articles/{id}/publish` | Publica ou despublica um artigo.         | Sim (JWT)           |
+| GET    | `/api/blog/feed/`                      | Lista todos os artigos publicados.          | Não                 |
+| GET    | `/api/blog/feed/{id}`                  | Detalhes de um artigo publicado.            | Não                 |
+
+#### Rotas de Usuário e Autenticação — prefixos `/api/user` e `/api/user/auth`
+
+| Método | Rota                         | Descrição                               | Autenticação        |
+|--------|------------------------------|----------------------------------------|---------------------|
+| POST   | `/api/user/`                 | Cria um novo usuário.                   | Não                 |
+| POST   | `/api/user/auth/login`       | Realiza login e retorna token JWT.     | Não                 |
+| GET    | `/api/user/profile`          | Retorna dados do perfil autenticado.   | Sim (JWT)           |
+| PUT    | `/api/user/profile`          | Atualiza dados do perfil autenticado.  | Sim (JWT)           |
+| POST   | `/api/user/auth/refresh-token` | Atualiza token JWT expirado/próximo. | Sim (JWT)           |
+
+#### Documentação Interativa
+
+| Método | Rota         | Descrição                          | Autenticação        |
+|--------|--------------|-----------------------------------|---------------------|
+| GET    | `/api-docs`  | Interface Swagger UI para a API.  | Não                 |
+
+---
+
+##### Observações
+
+- Todas as rotas que manipulam dados privados exigem autenticação via token JWT.
+- Rotas públicas: criação de usuário e login, não exigem autenticação.
+- A API segue padrão RESTful, com métodos HTTP claros para cada ação.
+- Para exemplos, códigos de erro e detalhes técnicos, consulte a documentação Swagger em `/api-docs`.
+
+Caso deseje acessar a documentação swagger da API acesse o link a seguir:
+
+**🔗 Swagger UI:** https://api-blog-sw-doc.netlify.app/
