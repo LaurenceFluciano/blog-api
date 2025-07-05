@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { AuthTokenDTO, UserAuthResponseDTO } from "../../../api/dtos/auth.dto.js";
+import { AuthTokenDTO } from "../../../api/dtos/auth.dto.js";
 import { UnauthorizedError } from "../Error/validation.error.service.js";
 import 'dotenv/config'
 

@@ -15,7 +15,7 @@ import {
 import { GetUserByIdDTO } from "../../api/dtos/user.dto.js";
 import { UserService } from "./user.service.js";
 import { ArticleValidator } from "./validation/article.validation.js";
-import { BadRequestError, NotFoundError, UnauthorizedError } from "./Error/validation.error.service.js";
+import { BadRequestError, NotFoundError } from "./Error/validation.error.service.js";
 import { PaginatedResponse, PageDTO } from "../../api/dtos/pagination.dto.js";
 import { ViewerService } from "./validation/viewer.validation.js";
 

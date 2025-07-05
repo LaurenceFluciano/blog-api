@@ -2,15 +2,13 @@ import {test, describe, it, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
 import { DeleteArticleDTO, FilterMyArticlesDTO } from "../../api/dtos/article.dto.js";
-import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { connectMemoryDB, disconnectMemoryDB, clearDatabase } from "../../configs/connection/mongodb.connection.memory.js";
 import { PageDTO } from "../../api/dtos/pagination.dto.js";
 import { CreateTestFactoryArticle } from "../article.test.factory.js";
 import { CreateTestFactoryUser } from "../user.test.factory.js";
 import { ArticleMongodbRepository } from "../../core/repository/article.mongodb.repository.js";
 import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 
-/* | MOCK | */
-/* SETUP */
 const createTestUser = new CreateTestFactoryUser()
 const createTestArticle = new CreateTestFactoryArticle()
 
@@ -20,17 +18,20 @@ let createdUser: any;
 let createdArticle: any;
 
 test.before(async () => {
-  await mongooseConnection();
+  await connectMemoryDB();
   articleRepository = new ArticleMongodbRepository();
   userRepository = new UserRepositoryMongodb();
 
-  createdUser = await createTestUser.create(userRepository, {})
-  createdArticle = await createTestArticle.create(articleRepository, { idUser: createdUser.id })
 });
 
+test.beforeEach(async () => {
+    await clearDatabase();
+    createdUser = await createTestUser.create(userRepository, {})
+    createdArticle = await createTestArticle.create(articleRepository, { idUser: createdUser.id })
+})
+
 test.after(async () => {
-    await userRepository.delete(createdUser.id)
-    await mongooseDisconnection();
+    await disconnectMemoryDB();
 });
 
 describe("ArticleService - delete", () => {

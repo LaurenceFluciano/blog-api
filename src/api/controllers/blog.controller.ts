@@ -7,9 +7,11 @@ import { PostArticleDTO,
         FilterPublishedArticleDTO,
         DeleteArticleDTO,
         PublishArticleDTO, 
+        UpdateCompleteArticleDTO,
         GetMyArticleDTO} from "../dtos/article.dto.js"
 import { PageDTO } from "../dtos/pagination.dto.js"
 import { GetUserByIdDTO } from "../dtos/user.dto.js"
+import { BadRequestError } from "../../core/services/Error/validation.error.service.js"
 
 export class ArticleController {
     constructor(
@@ -49,7 +51,7 @@ export class ArticleController {
         res.status(200).json(result)
     }
 
-    public async updateMyArticle(req: Request, res: Response) {
+    public async updatePartialMyArticle(req: Request, res: Response) {
         const id = req.params.id
         const body = req.body
         const userid = req.user.id
@@ -60,7 +62,21 @@ export class ArticleController {
             body.content
         )
         await this.articleService.updateArticle(updateParams,new GetArticleDTO(id),userid)
-        res.status(200).json({message: "Artigo atualizado"})
+        res.status(200).json({message: "Artigo atualizado com sucesso!"})
+    }
+
+    public async updateEntireMyArticle(req: Request, res: Response) {
+        const id = req.params.id
+        const body = req.body
+        const userid = req.user.id
+
+        const updateParams = new UpdateCompleteArticleDTO(
+            body.title,
+            body.imageUrl,
+            body.content
+        )
+        await this.articleService.updateArticle(updateParams,new GetArticleDTO(id),userid)
+        res.status(200).json({message: "Artigo atualizado com sucesso!"})
     }
 
     public async getAllPublishedArticles(req: Request, res: Response) {

@@ -163,6 +163,21 @@ class UpdateArticleDTO {
     }
 }
 
+class UpdateCompleteArticleDTO {
+  public readonly title: string;
+  public readonly imageUrl: string;
+  public readonly content: string;
+
+  constructor(title: string, imageUrl: string, content: string) {
+    if (!title?.trim() || !imageUrl?.trim() || !content?.trim()) {
+      throw new BadRequestError('Todos os campos devem ser preenchidos para atualização completa.');
+    }
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.content = content;
+  }
+}
+
 // Deletar artigo
 class DeleteArticleDTO<GenericId> {
     constructor(
@@ -183,5 +198,6 @@ export {
     FilterPublishedArticleDTO,
     FilterMyArticlesDTO,
     DeleteArticleDTO,
-    GetMyArticleDTO
+    GetMyArticleDTO,
+    UpdateCompleteArticleDTO
 }

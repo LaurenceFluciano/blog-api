@@ -1,25 +1,25 @@
 type: collection.insomnia.rest/5.0
 name: blog-api
 meta:
-  id: wrk_9cf89fa7401745b89c2cb8bb19d63547
-  created: 1746542980129
-  modified: 1749672223687
-  description: "A simple blog API"
+  id: wrk_a2c33b91c41d42dc8cdaf01f3f2fca84
+  created: 1751148782313
+  modified: 1751148782313
+  description: ""
 collection:
   - name: Blog API
     meta:
-      id: fld_0736a1d5ecd1451a99596d3a7e5ba91f
+      id: fld_0b436b8c71e4457e8cd940716bd0dbd2
       created: 1748812037591
       modified: 1748812037591
       sortKey: -1748812037591
       description: ""
     children:
-      - url: "{{ _['blog-api'].server }}/blog/dashboard/articles/"
+      - url: "{{ _['blog-api'].server }}/v1/blog/articles/"
         name: Create Article
         meta:
-          id: req_063eb917a7a8488c946fe0d0a4a1015c
+          id: req_9ea7ff67cf954b239d08915b6ba31889
           created: 1748573909420
-          modified: 1749677988632
+          modified: 1751737833623
           isPrivate: false
           description: ""
           sortKey: -1748812059938
@@ -38,6 +38,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -46,12 +49,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server }}/blog/dashboard/articles/"
+      - url: "{{ _['blog-api'].server }}/v1/blog/articles/"
         name: Get All My Articles
         meta:
-          id: req_5873d1087a474a7995453c23113e6da4
+          id: req_46a170e10d7344bab1190151949ae530
           created: 1748716986549
-          modified: 1749677990637
+          modified: 1751737830407
           isPrivate: false
           description: ""
           sortKey: -1748812059913
@@ -62,6 +65,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -70,13 +76,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server
-          }}/blog/dashboard/articles/6848c43301a08a3da76784ea"
+      - url: "{{ _['blog-api'].server }}/v1/blog/articles/6848c43301a08a3da76784ea"
         name: Delete My Article
         meta:
-          id: req_ccf840608cd74bacbe11367a6f0b6f7d
+          id: req_8e1adef77e904c298af5359c374640dd
           created: 1748740557661
-          modified: 1749678000397
+          modified: 1751737816017
           isPrivate: false
           description: ""
           sortKey: -1748812059663
@@ -87,6 +92,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -95,12 +103,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server }}/blog/feed/"
+      - url: "{{ _['blog-api'].server }}/v1/blog/feed/"
         name: Get all Published Articles
         meta:
-          id: req_b51531da2fb445c899a02c7f34e4cf25
+          id: req_fc82bad7b23a462b992ebd20e9208335
           created: 1748740570498
-          modified: 1749677986120
+          modified: 1751737837033
           isPrivate: false
           description: ""
           sortKey: -1748812060513
@@ -111,6 +119,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -119,13 +130,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server
-          }}/blog/dashboard/articles/6848c46201a08a3da76784f2"
+      - url: "{{ _['blog-api'].server }}/v1/blog/articles/686966aaeba9a822cf6d10e5"
         name: Update my Articles
         meta:
-          id: req_fccc232ed563413a83c6adbf09f7637d
+          id: req_45d64a28fb724302b6bb7c6cc88780ec
           created: 1748740583395
-          modified: 1749677995871
+          modified: 1751738093171
           isPrivate: false
           description: ""
           sortKey: -1748812059813
@@ -135,7 +145,8 @@ collection:
           text: |-
             {
             "imageUrl":"url",
-            "content":"content"
+            "content":"content",
+            	"title":"test blog test"
             }
         headers:
           - name: Content-Type
@@ -145,6 +156,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -154,12 +168,12 @@ collection:
             store: true
           rebuildPath: true
       - url: "{{ _['blog-api'].server
-          }}/blog/dashboard/articles/6848c46201a08a3da76784f2/publish"
+          }}/v1/blog/articles/6848c46201a08a3da76784f2/publish"
         name: Publish my Article
         meta:
-          id: req_6d7310fed6ee41c9b21cd7c520a4e370
+          id: req_1c1fc01b1c394b1f948d900c44d7c895
           created: 1748800308863
-          modified: 1749677998311
+          modified: 1751737819947
           isPrivate: false
           description: ""
           sortKey: -1748812059763
@@ -178,6 +192,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -186,13 +203,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server
-          }}/blog/dashboard/articles/6848c46201a08a3da76784f2"
+      - url: "{{ _['blog-api'].server }}/v1/blog/articles/686966aaeba9a822cf6d10e5"
         name: Get My Article by ID
         meta:
-          id: req_f5a9b089b5a24d68bfb86cc1dc7eb03d
+          id: req_1e2bd3f98e574ee6818b496fb727bb2a
           created: 1748800477023
-          modified: 1749677992780
+          modified: 1751738056511
           isPrivate: false
           description: ""
           sortKey: -1748812059863
@@ -203,6 +219,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -211,12 +230,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server }}/blog/feed/6848c46201a08a3da76784f2"
+      - url: "{{ _['blog-api'].server }}/v1/blog/feed/686966aaeba9a822cf6d10e5"
         name: Get Published Article by Id
         meta:
-          id: req_32b7ae82900a4eb7a48581dbe4ee9964
+          id: req_43c2d554d6904b3781625dedb818fa6a
           created: 1748973045901
-          modified: 1749677983751
+          modified: 1751738045467
           isPrivate: false
           description: ""
           sortKey: -1748812060563
@@ -224,6 +243,42 @@ collection:
         headers:
           - name: User-Agent
             value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _['blog-api'].server }}/v1/blog/articles/686966aaeba9a822cf6d10e5"
+        name: Patch My Article
+        meta:
+          id: req_808bb79199b342f9a94f729b18785ef2
+          created: 1751738104675
+          modified: 1751738189739
+          isPrivate: false
+          description: ""
+          sortKey: -1748812060663
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"content":"content",
+            	"title":"test blog test"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.2.0
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
@@ -235,20 +290,23 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
   - name: Auth
     meta:
-      id: fld_e15f02f0343e4ed99093fbf5dc1ec0bf
+      id: fld_bea2fad2ab01476baf77528a55321ad6
       created: 1748976793943
-      modified: 1749678046427
+      modified: 1751738017636
       sortKey: -1748976793943
       description: ""
     children:
-      - url: "{{ _['blog-api'].server }}/user/auth/login"
+      - url: "{{ _['blog-api'].server }}/v1/user/auth/login"
         name: Login
         meta:
-          id: req_2c9bdfdc800549738b4eb9b5fc7624a8
+          id: req_b8285804507b4bf3b7b204db47cc9ef9
           created: 1748462443333
-          modified: 1749677836007
+          modified: 1751737857240
           isPrivate: false
           description: ""
           sortKey: -1748976797795
@@ -263,10 +321,8 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
-            id: pair_ef5e6d592423493a8cf1ac8d5425d4ea
           - name: User-Agent
             value: insomnia/11.1.0
-            id: pair_ec5d41210ed848fd9ddc143637bd62e8
         scripts:
           preRequest: ""
           afterResponse: >
@@ -285,12 +341,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server }}/user/auth/profile"
+      - url: "{{ _['blog-api'].server }}/v1/user/auth/profile"
         name: Profile
         meta:
-          id: req_71f40f9afe5846e8810f0475fe9fe3ec
+          id: req_a29e7d67b9d042cd837bdb10e6fed2c4
           created: 1748462531342
-          modified: 1749677943301
+          modified: 1751737853908
           isPrivate: false
           description: ""
           sortKey: -1748976797745
@@ -298,10 +354,12 @@ collection:
         headers:
           - name: User-Agent
             value: insomnia/11.1.0
-            id: pair_13d267198ffa491990bb4a353dac94e2
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -310,12 +368,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server }}/user/auth/profile"
+      - url: "{{ _['blog-api'].server }}/v1/user/auth/profile"
         name: Update Profile
         meta:
-          id: req_a5fd8b4ed06a42d49b1207205e90e39a
+          id: req_8c94fc80490a49bdb1500fbca44816bf
           created: 1748976805736
-          modified: 1749677977058
+          modified: 1751737850491
           isPrivate: false
           description: ""
           sortKey: -1748976797720
@@ -335,6 +393,9 @@ collection:
         authentication:
           type: bearer
           token: "{{ _.accessToken }}"
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -343,12 +404,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _['blog-api'].server }}/user/auth/refresh-token"
+      - url: "{{ _['blog-api'].server }}/v1/user/auth/refresh-token"
         name: Refresh token
         meta:
-          id: req_08cdd71892d24a8e87b4cf43fcf299a2
+          id: req_29e007993dcb4a1e8a867780cdaaa7bc
           created: 1749343862982
-          modified: 1749677935250
+          modified: 1751737846915
           isPrivate: false
           description: ""
           sortKey: -1748976797695
@@ -360,6 +421,7 @@ collection:
           type: bearer
           token: "{{ _.refreshToken }}"
         scripts:
+          preRequest: ""
           afterResponse: >
             const jsonBody = insomnia.response.json();
 
@@ -373,20 +435,23 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
   - name: User
     meta:
-      id: fld_28c65828224a45939e8358eb54624ee9
+      id: fld_dd293a7df22b49bb92aa594821071965
       created: 1749672234245
       modified: 1749672234245
       sortKey: -1749672234245
       description: ""
     children:
-      - url: "{{ _['blog-api'].server }}/user/"
+      - url: "{{ _['blog-api'].server }}/v1/user/"
         name: Create User
         meta:
-          id: req_d0b1c859259d43fa8b8a352d7ec188e3
+          id: req_ac1deed3ae7041d2bf0f58da624b3d78
           created: 1748387021024
-          modified: 1749677972940
+          modified: 1751737869982
           isPrivate: false
           description: ""
           sortKey: -1749672236827
@@ -404,6 +469,9 @@ collection:
             value: application/json
           - name: User-Agent
             value: insomnia/11.1.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -412,12 +480,15 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
 cookieJar:
   name: Default Jar
   meta:
-    id: jar_3e2e4a67d3904db91293439950f48cb7a6db1f2c
+    id: jar_d788a9cad7a5440a93ce78ed1717c0a0
     created: 1746542980136
-    modified: 1749678046422
+    modified: 1751738017631
   cookies:
     - id: fe6d359e-a193-421a-9651-693c59b23217
       key: token
@@ -426,18 +497,16 @@ cookieJar:
       path: /
       secure: true
       httpOnly: true
-      creation: 2025-05-06T19:01:45.218Z
       hostOnly: true
-      lastAccessed: 2025-05-06T19:45:32.110Z
 environments:
   name: Base Environment
   meta:
-    id: env_3e2e4a67d3904db91293439950f48cb7a6db1f2c
+    id: env_e2a5e37320fc4974893b681eff9cc3f4
     created: 1746542980133
-    modified: 1749678046425
+    modified: 1751738017633
     isPrivate: false
   data:
     blog-api:
       server: http://localhost:3000/api
-    accessToken: none
-    refreshToken: none
+    accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Njk2NjhlZWJhOWE4MjJjZjZkMTBkZCIsImVtYWlsIjoidXNlckBnbWFpbC5jb20iLCJ1c2VybmFtZSI6InVzZXIiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzUxNzM4MDE3LCJleHAiOjE3NTE3Mzg5MTd9.MtGGUd51ig-nZW7LLNMXdz0zhhtNP8-a2CuU13XKtKA
+    refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODY5NjY4ZWViYTlhODIyY2Y2ZDEwZGQiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTc1MTczODAwMSwiZXhwIjoxNzUyMzQyODAxfQ.19vyhtRMJi003nlAb_T2PwLKhNMnTSSzb0uHTH6UK44

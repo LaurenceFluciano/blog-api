@@ -1,8 +1,8 @@
 import { test, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
-import { GetArticleDTO, PublishArticleDTO } from "../../api/dtos/article.dto.js";
-import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { PublishArticleDTO } from "../../api/dtos/article.dto.js";
+import { connectMemoryDB, disconnectMemoryDB, clearDatabase } from "../../configs/connection/mongodb.connection.memory.js";
 import { generateTestText } from "../tester.manager.js";
 import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 import { ArticleMongodbRepository } from "../../core/repository/article.mongodb.repository.js";
@@ -20,10 +20,14 @@ let createdUser: any;
 let createdValidArticle: any;
 
 test.before(async () => {
-  await mongooseConnection();
+  await connectMemoryDB();
   articleRepository = new ArticleMongodbRepository();
   userRepository = new UserRepositoryMongodb();
 
+});
+
+test.beforeEach(async () => {
+  await clearDatabase()
   createdUser = await createTestUser.create(userRepository, {});
   createdValidArticle = await createTestArticle.create(articleRepository, {
     idUser: createdUser.id,
@@ -31,12 +35,10 @@ test.before(async () => {
     content: generateTestText(100),
     imageUrl: validImage,
   });
-});
+})
 
 test.after(async () => {
-  await articleRepository.delete(createdValidArticle.id);
-  await userRepository.delete(createdUser.id);
-  await mongooseDisconnection();
+  await disconnectMemoryDB();
 });
 
 

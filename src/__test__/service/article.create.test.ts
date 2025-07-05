@@ -2,7 +2,7 @@ import { test, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
 import { PostArticleDTO } from "../../api/dtos/article.dto.js";
-import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { connectMemoryDB, disconnectMemoryDB, clearDatabase } from "../../configs/connection/mongodb.connection.memory.js";
 import { CreateTestFactoryUser } from "../user.test.factory.js";
 import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 
@@ -13,15 +13,18 @@ let user: any;
 let validUserId: string;
 
 test.before(async () => {
-  await mongooseConnection();
+  await connectMemoryDB();
+});
+
+test.beforeEach(async () => {
+  await clearDatabase();
   user = await createUser.create(userRepository, {});
   validUserId = user.id;
-});
+})
 
 
 test.after(async () => {
-  await userRepository.delete(validUserId);
-  await mongooseDisconnection();
+  await disconnectMemoryDB();
 });
 
 

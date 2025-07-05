@@ -2,7 +2,7 @@ import { test, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { articleService } from "../../core/services/container/instance.js";
 import { UpdateArticleDTO, GetArticleDTO } from "../../api/dtos/article.dto.js";
-import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { connectMemoryDB, disconnectMemoryDB, clearDatabase } from "../../configs/connection/mongodb.connection.memory.js";
 import { CreateTestFactoryUser } from "../user.test.factory.js";
 import { CreateTestFactoryArticle } from "../article.test.factory.js";
 import { generateTestText } from "../tester.manager.js";
@@ -20,11 +20,16 @@ let createdUser: any;
 let createdValidArticle: any;
 
 test.before(async () => {
-  await mongooseConnection();
+  await connectMemoryDB();
 
   articleRepository = new ArticleMongodbRepository();
   userRepository = new UserRepositoryMongodb();
 
+});
+
+test.beforeEach(async () => {
+  await clearDatabase()
+  
   createdUser = await createTestUser.create(userRepository, {});
 
   createdValidArticle = await createTestArticle.create(articleRepository, {
@@ -33,10 +38,10 @@ test.before(async () => {
     content: generateTestText(100),
     imageUrl: validImage,
   });
-});
+})
 
 test.after(async () => {
-  await mongooseDisconnection();
+  await disconnectMemoryDB();
 });
 
 describe("ArticleService - updateArticle", () => {

@@ -5,11 +5,11 @@ const options = {
     openapi: "3.0.0",
     info: {
       title: "Blog",
-      version: "1.0.0",
+      version: "1.2.0",
       description: "API para gerenciamento de artigos, feed, usuários e autenticação."
     },
     paths: {
-      "/api/blog/dashboard/articles/": {
+      "/api/v1/blog/articles/": {
         post: {
           tags: ["Blog"],
           summary: "Criar artigo",
@@ -29,7 +29,7 @@ const options = {
           }
         }
       },
-      "/api/blog/dashboard/articles/{id}": {
+      "/api/v1/blog/articles/{id}": {
         parameters: [
           {
             name: "id",
@@ -41,10 +41,20 @@ const options = {
         ],
         put: {
           tags: ["Blog"],
-          summary: "Atualizar artigo do usuário",
+          summary: "Atualizar todo o artigo do usuário",
           security: [{ bearerAuth: [] }],
           responses: {
-            200: { description: "Artigo atualizado." },
+            200: { description: "Artigo atualizado com sucesso!"},
+            401: { description: "Não autorizado." },
+            404: { description: "Artigo não encontrado." }
+          }
+        },
+        patch: {
+          tags: ["Blog"],
+          summary: "Atualizar parte do artigo do usuário",
+          security: [{ bearerAuth: [] }],
+          responses: {
+            200: { description: "Artigo atualizado com sucesso!" },
             401: { description: "Não autorizado." },
             404: { description: "Artigo não encontrado." }
           }
@@ -70,7 +80,7 @@ const options = {
           }
         }
       },
-      "/api/blog/dashboard/articles/{id}/publish": {
+      "/api/v1/blog/articles/{id}/publish": {
         parameters: [
           {
             name: "id",
@@ -91,7 +101,7 @@ const options = {
           }
         }
       },
-      "/api/blog/feed/": {
+      "/api/v1/blog/feed/": {
         get: {
           tags: ["Blog"],
           summary: "Buscar todos artigos publicados",
@@ -102,7 +112,7 @@ const options = {
           }
         }
       },
-      "/api/blog/feed/{id}": {
+      "/api/v1/blog/feed/{id}": {
         parameters: [
           {
             name: "id",
@@ -123,7 +133,7 @@ const options = {
           }
         }
       },
-      "/api/user/": {
+      "/api/v1/user/": {
         post: {
           tags: ["User"],
           summary: "Criar usuário",
@@ -133,7 +143,7 @@ const options = {
           }
         }
       },
-      "/api/user/auth/login": {
+      "/api/v1/user/auth/login": {
         post: {
           tags: ["Auth"],
           summary: "Login do usuário",
@@ -143,7 +153,7 @@ const options = {
           }
         }
       },
-      "/api/user/auth/profile": {
+      "/api/v1/user/auth/profile": {
         get: {
           tags: ["Auth"],
           summary: "Obter perfil do usuário autenticado",
@@ -163,7 +173,7 @@ const options = {
           }
         }
       },
-      "/api/user/auth/refresh-token": {
+      "/api/v1/user/auth/refresh-token": {
         post: {
           tags: ["Auth"],
           summary: "Atualizar token de autenticação",

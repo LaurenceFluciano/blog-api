@@ -1,11 +1,12 @@
 import {test, describe, it} from "node:test";
 import assert from "assert";
-import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { connectMemoryDB, disconnectMemoryDB, clearDatabase } from "../../configs/connection/mongodb.connection.memory.js";
 import { ArticleMongodbRepository } from "../../core/repository/article.mongodb.repository.js";
 import { Types } from "mongoose";
 import { CreateTestFactoryArticle } from "../article.test.factory.js";
 import { CreateTestFactoryUser } from "../user.test.factory.js";
 import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
+
 
 const createTestArticle = new CreateTestFactoryArticle()
 const createTestUser = new CreateTestFactoryUser()
@@ -16,20 +17,20 @@ let createdUser: any;
 let createdArticle: any;
 
 test.before(async () => {
-    await mongooseConnection();
+    await connectMemoryDB();
     articleRepository = new ArticleMongodbRepository();
     userRepository = new UserRepositoryMongodb();
-
-    createdUser = await createTestUser.create(userRepository, {})
-    createdArticle = await createTestArticle.create(articleRepository, { idUser: createdUser.id })
 });
-
 
 test.after(async () => {
-    await articleRepository.delete(createdArticle.id)
-    await userRepository.delete(createdUser.id)
-    await mongooseDisconnection();
+    await disconnectMemoryDB();
 });
+
+test.beforeEach(async () => {
+    await clearDatabase()
+    createdUser = await createTestUser.create(userRepository, {})
+    createdArticle = await createTestArticle.create(articleRepository, { idUser: createdUser.id })
+})
 
 
 describe("ArticleMongodbRepository", () => {
@@ -91,6 +92,7 @@ describe("ArticleMongodbRepository", () => {
     });
 
     it("Should get viewers", async () => {
+        await articleRepository.setViewer(createdArticle.id,new Types.ObjectId().toString())
         const viewers = await articleRepository.getViewers( createdArticle.id);
         assert(Array.isArray(viewers), "Expected viewers to be an array");
         assert(viewers.length > 0, "Expected at least one viewer");

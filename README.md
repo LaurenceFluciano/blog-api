@@ -143,28 +143,28 @@ Feito isso, seu projeto estará pronto para funcionar corretamente com conexão 
 
 ### 6. Documentação das Rotas da API
 
-#### Rotas de Artigos — prefixo `/api/blog`
+#### Rotas de Artigos — prefixo `/api/v1/blog`
 
 | Método | Rota                                   | Descrição                                  | Autenticação        |
 |--------|---------------------------------------|--------------------------------------------|---------------------|
-| POST   | `/api/blog/dashboard/articles/`       | Cria um novo artigo.                        | Sim (JWT)           |
-| GET    | `/api/blog/dashboard/articles/`       | Lista todos os artigos do usuário.         | Sim (JWT)           |
-| GET    | `/api/blog/dashboard/articles/{id}`   | Retorna detalhes do artigo específico.     | Sim (JWT)           |
-| PUT    | `/api/blog/dashboard/articles/{id}`   | Atualiza um artigo existente.               | Sim (JWT)           |
-| DELETE | `/api/blog/dashboard/articles/{id}`   | Deleta o artigo especificado.               | Sim (JWT)           |
-| PUT    | `/api/blog/dashboard/articles/{id}/publish` | Publica ou despublica um artigo.         | Sim (JWT)           |
-| GET    | `/api/blog/feed/`                      | Lista todos os artigos publicados.          | Não                 |
-| GET    | `/api/blog/feed/{id}`                  | Detalhes de um artigo publicado.            | Não                 |
+| POST   | `/api/v1/blog/dashboard/articles/`       | Cria um novo artigo.                        | Sim (JWT)           |
+| GET    | `/api/v1/blog/dashboard/articles/`       | Lista todos os artigos do usuário.         | Sim (JWT)           |
+| GET    | `/api/v1/blog/dashboard/articles/{id}`   | Retorna detalhes do artigo específico.     | Sim (JWT)           |
+| PUT    | `/api/v1/blog/dashboard/articles/{id}`   | Atualiza um artigo existente.               | Sim (JWT)           |
+| DELETE | `/api/v1/blog/dashboard/articles/{id}`   | Deleta o artigo especificado.               | Sim (JWT)           |
+| PUT    | `/api/v1/blog/dashboard/articles/{id}/publish` | Publica ou despublica um artigo.         | Sim (JWT)           |
+| GET    | `/api/v1/blog/feed/`                      | Lista todos os artigos publicados.          | Não                 |
+| GET    | `/api/v1/blog/feed/{id}`                  | Detalhes de um artigo publicado.            | Não                 |
 
-#### Rotas de Usuário e Autenticação — prefixos `/api/user` e `/api/user/auth`
+#### Rotas de Usuário e Autenticação — prefixos `/api/v1/user` e `/api/v1/user/auth`
 
 | Método | Rota                         | Descrição                               | Autenticação        |
 |--------|------------------------------|----------------------------------------|---------------------|
-| POST   | `/api/user/`                 | Cria um novo usuário.                   | Não                 |
-| POST   | `/api/user/auth/login`       | Realiza login e retorna token JWT.     | Não                 |
-| GET    | `/api/user/profile`          | Retorna dados do perfil autenticado.   | Sim (JWT)           |
-| PUT    | `/api/user/profile`          | Atualiza dados do perfil autenticado.  | Sim (JWT)           |
-| POST   | `/api/user/auth/refresh-token` | Atualiza token JWT expirado/próximo. | Sim (JWT)           |
+| POST   | `/api/v1/user/`                 | Cria um novo usuário.                   | Não                 |
+| POST   | `/api/v1/user/auth/login`       | Realiza login e retorna token JWT.     | Não                 |
+| GET    | `/api/v1/user/profile`          | Retorna dados do perfil autenticado.   | Sim (JWT)           |
+| PUT    | `/api/v1/user/profile`          | Atualiza dados do perfil autenticado.  | Sim (JWT)           |
+| POST   | `/api/v1/user/auth/refresh-token` | Atualiza token JWT expirado/próximo. | Sim (JWT)           |
 
 #### Documentação Interativa
 

@@ -1,6 +1,6 @@
 import { test, describe, it } from "node:test";
 import assert from "assert";
-import { mongooseConnection, mongooseDisconnection } from "../../configs/mongodbConnection.js";
+import { connectMemoryDB, disconnectMemoryDB, clearDatabase } from "../../configs/connection/mongodb.connection.memory.js";
 import { UserRepositoryMongodb } from "../../core/repository/user.mongodb.repository.js";
 import { Types } from "mongoose";
 import { UserEntity } from "../../core/entity/user.entity.js";
@@ -11,14 +11,17 @@ let testUserUsername = "jonh";
 let testUserEmail = "jonh@gmail.com";
 
 test.before(async () => {
-  await mongooseConnection();
+  await connectMemoryDB();
   userRepository = new UserRepositoryMongodb();
+});
 
+
+test.beforeEach(async () => {
+  await clearDatabase()
   const user = await userRepository.create(
     new UserEntity("Jonh", testUserEmail, "ThePassword-123")
   );
   testUserId = user.id;
-
 
   await userRepository.create(new UserEntity("Jane", "jane@example.com", "Pass123"));
   await userRepository.create(new UserEntity("Jack", "jack@example.com", "Pass123"));
@@ -28,16 +31,10 @@ test.before(async () => {
   (dateTestUser as any).createdAt = new Date("2025-05-29T00:00:00Z");
   (dateTestUser as any).updatedAt = new Date("2025-05-29T00:00:00Z");
   await userRepository.create(dateTestUser);
-});
+})
 
 test.after(async () => {
-
-  const users = await userRepository.findManyBy({}, 1, 100);
-  for (const user of users) {
-    await userRepository.delete(user.id);
-  }
-
-  await mongooseDisconnection();
+  await disconnectMemoryDB();
 });
 
 describe("UserRepositoryMongodb - findById", () => {
